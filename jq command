@@ -1,0 +1,17 @@
+cat <json file> or json output from any command | jq --raw-output '.<first column>|.<second column>|select ( .<thirdcolumn> == "column element")'
+
+add a ? after <first column> if you want to check if a column exists
+
+cat <json file> or json output from any command | jq --raw-output '.<first column>?|.<second column>|select ( .<thirdcolumn> == "column element")'
+
+we can also select a column using below
+
+cat <json file> or json output from any command | jq --raw-output '.<first column>.<second column>|select ( .<thirdcolumn> == "column element")'
+
+if there is [] in json use [] in jq too
+cat <json file> or json output from any command | jq --raw-output '.<first column>[]|.<second column>|select ( .<thirdcolumn> == "column element")' or
+
+cat <json file> or json output from any command | jq --raw-output '.<first column>|.<second column>[]|select ( .<thirdcolumn> == "column element")'
+
+
+
