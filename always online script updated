@@ -1,0 +1,34 @@
+Add-Type @"
+  using System;
+  using System.Runtime.InteropServices;
+  public class UserWindows {
+    [DllImport("user32.dll")]
+    public static extern IntPtr GetForegroundWindow();
+}
+"@ 
+while (1 -eq 1){         
+	try {
+		$x=New-Object -ComObject wscript.shell;
+		$ActiveHandle = [UserWindows]::GetForegroundWindow()            
+		$Process = Get-Process | ? {$_.MainWindowHandle -eq $activeHandle}            
+		$a = $Process | Select ProcessName
+		[string]$a = $a
+		#Write-Host "$a"
+		#Write-Host '@{ProcessName=chrome}'
+		if ($a -eq '@{ProcessName=chrome}'){	
+			$x.SendKeys('^{PGUP}');
+			$x.SendKeys('^{PGUP}');
+			$x.SendKeys('{F5}');
+			Write-Host "Chrome window"
+			sleep 660
+			}
+		else{
+			sleep 3
+			Write-Host "not"
+			}
+			}
+		catch {            
+			Write-Error "Failed to get active Window details. More Info: $_"           
+		}
+}
+
