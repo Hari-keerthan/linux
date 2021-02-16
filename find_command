@@ -1,0 +1,22 @@
+find /hadoopfs/ -name application_1598993606687_7237 -exec du -sh {} \;
+
+find /hadoopfs/ -name application_1604581765217_0296 -exec du -sh {} \;|sort -rh
+
+find /home/svc-arch-bots/workarea/bind_test_multi -type f | wc -l
+
+find /var/run/cloudera-scm-agent/process/ -not -empty -ls 2>/dev/null| awk '$0 ~ /solr-SOLR/ && /solr.keytab/ {print $NF}' - get the full path of a file 
+
+full ouput of find command is fed to awk command using $0
+
+~ is used search in output for the lines conatining /solr-SOLR/
+
+&& is used to further search the output containing /solr.keytab/ in the output containing /solr-SOLR/ 
+
+final output - /var/run/cloudera-scm-agent/process/*********-solr-SOLR_SERVER/solr.keytab
+
+there can also be output like
+/var/run/cloudera-scm-agent/process/*********1-solr-SOLR_SERVER/solr.keytab
+/var/run/cloudera-scm-agent/process/*********2-solr-SOLR_SERVER/solr.keytab
+/var/run/cloudera-scm-agent/process/*********3-solr-SOLR_SERVER/solr.keytab
+
+In this case use find /var/run/cloudera-scm-agent/process/ -not -empty -ls 2>/dev/null| awk '$0 ~ /solr-SOLR/ && /solr.keytab/ {print $NF}' |head -n 1
