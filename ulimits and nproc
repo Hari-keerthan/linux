@@ -10,3 +10,26 @@ for nproc values add the following line to /etc/security/limits.d/20-xxxx
 
 
 if u wnat to change limits for a particular user use linux username instead of * and the value u want to put instead of 65536
+
+
+
+echo ` hostname -f ` `pip3 list installed|grep six ` ` date `
+echo $(hostname -f) $(pip3 list installed|grep six) $(date)
+
+both giv same output -  <hostanme> six (1.10.0) <date command output> - in one line
+
+to change the max number of pids use command - sudo sysctl -w kernel.pid_max=4194304
+u can chk this is in file /proc/sys/kernel/pid_max
+
+script to change ulimits and process limits (nproc) - 
+
+for (( i=0; i<=0; i++))
+do
+        ssh -i <pem file name>.pem user@<hostname> "sudo tee -a /etc/security/limits.conf << END
+*                hard    nproc           65536
+*                soft    nproc           65536
+*                hard    nofile          65536
+*                soft    nofile          65536
+END
+sudo sed -i 's|4096|65536|g' /etc/security/limits.d/20-nproc.conf"
+done
