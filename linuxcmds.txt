@@ -46,6 +46,12 @@ if statement
   string is null, that is, has zero length
   
   
-  
+echo ` hostname -f ` `pip3 list installed|grep six ` ` date `
+echo $(hostname -f) $(pip3 list installed|grep six) $(date)
+
+both giv same output -  <hostanme> six (1.10.0) <date command output> - in one line
+
+to change the max number of pids use command - sudo sysctl -w kernel.pid_max=4194304
+u can chk this is in file /proc/sys/kernel/pid_max
 
 
