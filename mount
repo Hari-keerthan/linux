@@ -16,6 +16,8 @@ do sudo vi /etc/fstab and add the following entry
  
  ---> using autofs
  
+ sudo yum install autofs -y
+ 
  first create a mapping file in /etc
  example : touch /etc/auto.mapping_exapmle
  then create a directory for mounting the mount points
