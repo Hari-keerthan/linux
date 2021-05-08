@@ -2,7 +2,7 @@ find /hadoopfs/ -name application_1598993606687_7237 -exec du -sh {} \;
 
 find /hadoopfs/ -name application_1604581765217_0296 -exec du -sh {} \;|sort -rh
 
-find /home/svc-arch-bots/workarea/bind_test_multi -type f | wc -l
+find /home/hary/workarea/bind_test_multi -type f | wc -l
 
 find /var/run/cloudera-scm-agent/process/ -not -empty -ls 2>/dev/null| awk '$0 ~ /solr-SOLR/ && /solr.keytab/ {print $NF}' - get the full path of a file 
 
