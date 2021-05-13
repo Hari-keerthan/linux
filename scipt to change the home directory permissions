@@ -1,0 +1,26 @@
+command to run - sh -x ch_own.sh
+
+cat ch_own.sh
+-------------------------------------
+for (( i=0; i<=9; i++ ))
+do
+        ssh -i <pem file name> <username>@<hostname>-$i < ch_own.txt
+done
+-------------------------------------
+
+ cat ch_own.txt
+ 
+-------------------------------------
+
+filename=(`ls /home/`)
+for each in "${filename[@]}"
+do
+ if [[ $each != "cloudbreak" ]]
+ then
+  sudo chown -R $each:$each /home/$each
+ fi
+done
+
+-------------------------------------
+
+to run a commandd aftr doing ssh use command - ssh -i <pem file name> <username>@<hostname> "sudo rm -rf /tmp/hsperfdata*"
