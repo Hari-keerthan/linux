@@ -1,0 +1,8 @@
+git add -A
+ 1106 git lfs install 
+1107 cd libs/ 
+1108 git lfs track "*.jar" 
+1109 cd ..
+ 1110 git add -A 
+1111 git commit -m "first commit "
+ 1112 git push -u origin master
