@@ -54,4 +54,8 @@ both giv same output -  <hostanme> six (1.10.0) <date command output> - in one l
 to change the max number of pids use command - sudo sysctl -w kernel.pid_max=4194304
 u can chk this is in file /proc/sys/kernel/pid_max
 
+    command to check the ip of the machine the user logged in from - last <username>|grep "still"
+    command to check the ip of the machine the user logged in from - last <username>|grep "still" - this will giv u ip
+to get teh hostname from ip - nslookup <ip>
+
 
