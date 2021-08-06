@@ -1,0 +1,91 @@
+instance_size=`cat input.json | jq -r '.instance_size'`
+instance_id=`cat input.json | jq -r '.instance_id'`
+'''
+if [[ -z "$instance_id" ]]; then
+    echo "Failed getting  Instance id"
+    exit 1
+fi
+echo "instance id is $instance_id"
+'''
+autoasclaing_group_name=` aws autoscaling describe-auto-scaling-groups | jq --arg instance_id  "$instance_id" --raw-output '.AutoScalingGroups | .[] | select(.Instances[].InstanceId== $instance_id) | .AutoScalingGroupName' `
+if [[ -z "$autoasclaing_group_name" ]]; then
+    echo "Failed getting  autoasclaing_group_name"
+    exit 1
+fi
+echo "autoasclaing group name is $autoasclaing_group_name"
+
+launch_template_id=` aws autoscaling describe-auto-scaling-groups | jq --arg instance_id  "$instance_id" --raw-output '.AutoScalingGroups | .[].Instances|select(.[].InstanceId == $instance_id) | .[].LaunchTemplate.LaunchTemplateId' `
+if [[ -z "$launch_template_id" ]]; then
+    echo "Failed getting  launch_template_id"
+    exit 1
+fi
+echo "launch template id is $launch_template_id"
+'''
+#stopping datahub cluster
+cdp datahub stop-cluster --cluster-name $cluster_name
+if [[ $? != 0 ]]; then
+    echo "Failed stopping datahub cluster" 
+    exit 1
+fi
+
+while true; do
+sleep 30
+status=`cdp datahub describe-cluster --cluster-name $cluster_name | jq --raw-output '.cluster.clusterStatus'`
+instance_status=`aws ec2 describe-instances --instance-ids $instance_id |  jq --raw-output  '.Reservations[].Instances[].State.Name'`
+if [[ -z "instance_status" ]]; then
+    echo "Failed getting  instance_status"
+    exit 1
+fi
+'''
+instance_status=`aws ec2 describe-instances --instance-ids $instance_id |  jq --raw-output  '.Reservations[].Instances[].State.Name'`
+status=STOPPED
+echo "cluster status is $status"
+echo "Instance status is $instance_status"
+if [ "$status" == "STOPPED" ] && [ "$instance_status" == "stopped" ]
+then
+sleep 30
+#updating Instance type
+aws ec2 modify-instance-attribute --instance-id $instance_id  --instance-type "{\"Value\": \"$instance_size\"}"
+if [[ $? != 0 ]]; then
+    echo "Failed updating Instance type" 
+    exit 1
+fi
+sleep 10
+
+aws ec2 create-launch-template-version --launch-template-id $launch_template_id --version-description version-latest --source-version 1 --launch-template-data "{\"InstanceType\":\"$instance_size\"}"
+if [[ $? != 0 ]]; then
+    echo "Failed updating launch-template" 
+    exit 1
+fi
+sleep 10
+
+aws autoscaling update-auto-scaling-group --auto-scaling-group-name $autoasclaing_group_name --launch-template LaunchTemplateId=$launch_template_id,Version='$Latest'
+if [[ $? != 0 ]]; then
+    echo "Failed updating auto-scaling-group" 
+    exit 1
+fi
+
+echo "Instance modified successfully"
+break
+fi
+done
+sleep 30
+'''
+#starting datahub cluster
+cdp datahub start-cluster --cluster-name $cluster_name
+if [[ $? != 0 ]]; then
+    echo "Failed starting datahub cluster" 
+    exit 1
+fi
+while true; do
+sleep 30
+status=`cdp datahub describe-cluster --cluster-name $cluster_name | jq --raw-output '.cluster.clusterStatus'`
+echo "cluster status is $status"
+if [ "$status" == "AVAILABLE" ]
+then
+echo "Cluster started successfully"
+break
+fi
+done
+'''
+aws autoscaling describe-auto-scaling-groups | jq --arg instance_id  "$instance_id" --raw-output '.AutoScalingGroups | .[] | select(.Instances[].InstanceId== $instance_id)'
