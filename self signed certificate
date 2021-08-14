@@ -1,0 +1,13 @@
+first create ca certificate and key
+
+openssl genrsa -out ca.key 2048  --- this generates ca key file
+openssl req -x509 -new -nodes -subj "/CN=my-server" -key ca.key -sha256 -days 365 -out ca.pem -- this generates ca pem file or crt file
+
+
+
+
+now to sign and create a signed certificate -
+
+openssl genrsa -out my-server.key 2048 -- this creates a key file for our server
+openssl req -new -key my-server.key -subj "/CN=my-server" -out my-server.csr -- this creates siging request to a ca
+openssl x509 -req -in my-server.csr -CA ca.pem -CAkey ca.key -CAcreateserial -out X509Certificate.crt -days 365 -sha256 -- this is the certificate created from the sigining request using ca.key
