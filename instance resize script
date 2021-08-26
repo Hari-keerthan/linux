@@ -89,3 +89,12 @@ fi
 done
 '''
 aws autoscaling describe-auto-scaling-groups | jq --arg instance_id  "$instance_id" --raw-output '.AutoScalingGroups | .[] | select(.Instances[].InstanceId== $instance_id)'
+
+
+input.json file - 
+
+{
+        "instance_size":"<instannce size to be changed to ex - m5.4xlarge",
+        "cluster_name":"<cluster_name>",
+        "instance_id":"<instance id>"
+}
