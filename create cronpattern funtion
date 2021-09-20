@@ -1,0 +1,13 @@
+showcron(){
+min=` echo $(date -u +%Y:%m:%d:%H:%M) | cut -d':' -f5 `
+hour=` echo $(date -u +%Y:%m:%d:%H:%M) | cut -d':' -f4 `
+date=` echo $(date -u +%Y:%m:%d:%H:%M) | cut -d':' -f3 `
+mnth=` echo $(date -u +%Y:%m:%d:%H:%M) | cut -d':' -f2 `
+year=` echo $(date -u +%Y:%m:%d:%H:%M) | cut -d':' -f1 `
+
+echo 0 $min $hour $date $mnth ? $year
+}
+
+export -f showcron
+
+put this in bash_profile and do source bash_profile
