@@ -1,0 +1,2 @@
+$(date +%Y%m%d%H%M)
+ex - $ tar -cvzf hari-$(date +%Y%m%d%H%M).tar.gz *
