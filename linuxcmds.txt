@@ -56,6 +56,14 @@ u can chk this is in file /proc/sys/kernel/pid_max
 
     command to check the ip of the machine the user logged in from - last <username>|grep "still"
     command to check the ip of the machine the user logged in from - last <username>|grep "still" - this will giv u ip
-to get teh hostname from ip - nslookup <ip>
+to get teh hostname from ip - nslookup <ip> or dig -x ip 
+
+
+#find /home/daygeek/shell-script -type f -mtime -15 -ls - to list files that are modified from 15 days
+#ps -Ao user,uid,comm,pid,pcpu,args --sort=-pcpu | head -n 6 - to check process with high cpu
+#find / -size +1M -exec du -sh {} \ - to list files and file sizes of files grated than 1 mb
+#nethogs -a - to monitor the network usage by a process
+#nload  - to monitor network traffic on a node
+#htop - better than top
 
 
