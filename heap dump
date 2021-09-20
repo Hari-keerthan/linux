@@ -1,0 +1,26 @@
+Collect the heap-dump of a process
+jmap -dump:format=b,file=cheap.hprof <pid>
+
+ 
+
+# Capturing a JVM heap dump
+jmap -dump:live,format=b,file=/home/hive/dump.hprof <pid>
+
+ 
+
+
+su -c "jmap -dump:format=b,file=solr.hprof <pid>" -s /bin/bash solr
+
+ 
+
+su -c "jmap -dump:format=b,file=solr1.hprof 833445" -s /bin/bash solr
+copy dump from   /tmp/hsperfdata_solr/ before restarting
+
+ 
+
+
+sudo -u hive jmap -histo 3955309 >> histo_3955309_1.txt
+
+ 
+
+sudo -u hive jmap -dump:live,format=b,file=/tmp/hms_dump1.hprof 3955309
