@@ -1,0 +1,23 @@
+https://superuser.com/questions/247127/what-is-and-in-linux/247131#:~:text=%22%24%40%22%20Stores%20all%20the%20arguments,first%20argument%20and%20so%20on.
+
+$!	  gives the pid of the command (ex echo "hello" & echo $!)
+
+$#    Stores the number of command-line arguments that 
+      were passed to the shell program.
+$?    Stores the exit value of the last command that was 
+      executed.
+$0    Stores the first word of the entered command (the 
+      name of the shell program).
+$*    Stores all the arguments that were entered on the
+      command line ($1 $2 ...).
+"$@"  Stores all the arguments that were entered
+      on the command line, individually quoted ("$1" "$2" ...).
+So basically, $# is a number of arguments given when your script was executed. $* is a string containing all arguments. For example, $1 is the first argument and so on. This is useful, if you want to access a specific argument in your script.
+
+ here is a simple example. If you run following command:
+
+./command -yes -no /home/username
+$# = 3
+$* = -yes -no /home/username
+$@ = array: {"-yes", "-no", "/home/username"}
+$0 = ./command, $1 = -yes etc.
