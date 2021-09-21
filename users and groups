@@ -1,0 +1,8 @@
+to add user -useradd <username>
+to set passwd for user - passwd <username>
+to create group - groupadd <groupname>
+to change group name - groupmod -n new_group_name old_group_name
+to add user to group - usermod -aG <username> or gpasswd -a <username> <groupname>
+to deleted a user from a grp - gpasswd -d <username> <groupname>
+to delete a group - groupdel <groupname>
+to check the groups the user is part of - id <usernmae>
