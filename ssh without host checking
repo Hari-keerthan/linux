@@ -1,0 +1,3 @@
+ssh command without checking if host is present known_hosts file
+
+ssh -o StrictHostKeyChecking=no -i test.pem <username>@<hostname>
