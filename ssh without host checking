@@ -1,3 +1,10 @@
 ssh command without checking if host is present known_hosts file
 
 ssh -o StrictHostKeyChecking=no -i test.pem <username>@<hostname>
+
+
+
+how to make hostA trust hostB -
+ssh-keyscan -H hostA >> /home/<username>/.ssh/knownhosts (run this on hostB)
+
+now when user does ssh <username>@hostB it wont promt yes/no do you trust this machine.
